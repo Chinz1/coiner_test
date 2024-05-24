@@ -10,8 +10,15 @@ import 'package:geolocator/geolocator.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // Request location permissions
-  await Geolocator.requestPermission();
+  LocationPermission permission = await Geolocator.requestPermission();
+  if (permission == LocationPermission.denied ||
+      permission == LocationPermission.deniedForever) {
+    // Handle permission denied scenario
+    return;
+  }
+
   runApp(MyApp());
 }
 
